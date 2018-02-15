@@ -11,3 +11,6 @@ Built to work with the controller module coming soon, I just need to clean up th
 
 When you drive into wifi range the device will autoconnect and send the open message.  
 When you are leaving it doesn't send the message because it waits to lose the wifi connection and then regain it.
+
+*Many thanks go out to Xose Pérez for the amazing espurna project.  I learned a lot from that project.  Especially thanks for the gulp file and demonstrating how to package html in an arduino project.
+https://bitbucket.org/xoseperez/espurna
