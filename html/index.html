@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script data-require="tether@*" data-semver="1.4.0" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link data-require="bootstrap@4.0.5" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+    <script data-require="bootstrap@4.0.5" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+    <script data-require="tether@*" data-semver="1.4.0" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <style>
+      label{
+        width:150px;
+      }
+    </style>
+    <script>
+
+      function loadSettings(){
+        $.ajax({
+             type: "GET",
+             url: "/settings",
+             dataType: "json",
+             success: function (msg) {
+                 if (msg) {
+                   console.log(msg);
+                   $("#ssid").val(msg["ssid"]);
+                   $("password").val("*******");
+                   $("#accessPointName").val(msg["accessPointName"]);
+                   $("#mqttServer").val(msg["mqttServer"]);
+                   $("#mqttPort").val(msg["mqttPort"]);
+                   $("#mqttUid").val(msg["mqttUid"]);
+                   $("#pubTopic").val(msg["pubTopic"]);
+                   $("#subTopic").val(msg["subTopic"]);
+                 } else {
+                   console.log("some stuff");
+                 }
+             }
+         });
+      };
+
+      $(document).ready(function(){
+        loadSettings();
+      });
+
+      function submitForm(){
+        var settings = {
+          ssid: $("#ssid").val(),
+          password: $("#password").val(),
+          accessPointName: $("#accessPointName").val(),
+          mqttServer: $("#mqttServer").val(),
+          mqttPort: $("#mqttPort").val(),
+          mqttUid: $("#mqttUid").val(),
+          mqttPass: $("#mqttPass").val(),
+          pubTopic: $("#pubTopic").val(),
+          subTopic: $("#subTopic").val()
+        };
+
+        $.ajax({
+             type: "POST",
+             url: "/",
+             dataType: "json",
+             success: function (msg) {
+                 if (msg) {
+                     location.reload(true);
+                 } else {
+
+                 }
+             },
+
+             data: settings
+         });
+      };
+    </script>
+  </head>
+
+  <body>
+    <form id="formSettings">
+      <label for="ssid">SSID</label>
+      <input type="text" id="ssid" />
+      <br />
+      <label for="password">Password</label>
+      <input type="password" id="password" />
+      <br />
+      <label for="accessPointName">Access Point Name</label>
+      <input id="accessPointName" />
+      <br />
+      <label for="mqttServer">MQTT Server</label>
+      <input id="mqttServer" />
+      <br />
+      <label for="mqttPort">MQTT Port</label>
+      <input id="mqttPort" />
+      <br />
+      <label for="mqttUid">MQTT Uid</label>
+      <input id="mqttUid" />
+      <br />
+      <label for="mqttPass">MQTT Pass</label>
+      <input type="password" id="mqttPass" />
+      <br />
+      <label for="pubTopic">MQTT Pub Topic</label>
+      <input id="pubTopic" />
+      <br />
+      <label for="subTopic">MQTT Sub Topic</label>
+      <input id="subTopic" />
+      <br />
+      <input value="Submit" type="submit" onclick="submitForm()" />
+    </form>
+  </body>
+
+</html>
